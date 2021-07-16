@@ -1,0 +1,34 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif !important;
+}
+
+.h1 {
+    font-weight: 600 !important;
+    text-align: center;
+    margin-top: 10vh;
+}
+
+.to-do-list {
+    margin-top: 5vh;
+}
+
+.botao-apagar {
+    padding: 0px 6px 2px;
+    line-height: 16px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-group-item p {
+    flex-grow: 1;
+}
+
+.riscado {
+    text-decoration: line-through;
+}
