@@ -63,7 +63,7 @@ var removeItem = function () { //função para remover item da lista
                 var paragrafo = $(`#item-${valor}`);
                 arrayItens.splice(arrayItens.indexOf(paragrafo.text()), 1);
                 guardaItensLocalStorage(); //atualiza local storage quando faz remoção do item
-                var elementoPai = $(botao.parentNode); //linhas abaixos servem para animação dos itens e por fim a remoção da lista
+                var elementoPai = $(e.target.parentNode); //linhas abaixos servem para animação dos itens e por fim a remoção da lista
                 elementoPai.animate({ opacity: '0' }, 300, function () {
                     elementoPai.animate({ height: '0px' }, 150, function () {
                         elementoPai.remove();
