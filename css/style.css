@@ -1,5 +1,7 @@
 body {
     font-family: 'Source Sans Pro', sans-serif !important;
+    background: url(../img/background.jpg) no-repeat center center fixed;
+    background-size: cover;
 }
 
 .h1 {
@@ -31,4 +33,13 @@ body {
 
 .riscado {
     text-decoration: line-through;
+}
+
+.fadeOut {
+    opacity: 0;
+    transition: 0.5s;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px !important;
 }
