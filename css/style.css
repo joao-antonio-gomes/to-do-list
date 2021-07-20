@@ -15,10 +15,16 @@ body {
 }
 
 .botao-apagar {
-    padding: 0px 6px 2px;
-    line-height: 16px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
+    color: red;
+    transition: .5s ease-out;
+    cursor: pointer;
+}
+
+.botao-apagar:hover {
+    color: black;
+    transition: .5s ease-in;
 }
 
 .list-group-item {
@@ -42,4 +48,26 @@ body {
 
 input[type="checkbox"] {
     margin-right: 10px !important;
+    cursor: pointer;
+}
+
+.risca-todos,
+.apaga-todos {
+    font-size: 20px;
+    line-height: 16px;
+    padding: 0px;
+    margin: 0px;
+    cursor: pointer;
+    transition: .5s ease-out;
+}
+
+.risca-todos:hover,
+.apaga-todos:hover {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
+        rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    transition: .2s ease-in;
+}
+
+.risca-apaga-todos {
+    visibility: hidden;
 }
