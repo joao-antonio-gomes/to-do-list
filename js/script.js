@@ -169,7 +169,8 @@ var salvaItemArray = function (itemLista) {
         id: arrayItens[0] + 1,
         descricao: itemLista,
         status: 'ativo',
-        riscado: false
+        riscado: false,
+        posicao: arrayItens[0] + 1
     });
     arrayItens[0] += 1;
     return arrayItens;
@@ -218,6 +219,8 @@ var riscaTodos = function () {
     var botaoRiscaTodos = $('.risca-todos');
     var checkbox = $('.marcar-feito');
 
+    verificaItensRiscados();
+
     if (botaoRiscaTodos.attr('data-value') == 'false') {
         botaoRiscaTodos.attr('data-value', 'true')
         checkbox.prop("checked", true);
@@ -243,6 +246,7 @@ var riscaItem = function () { //função para riscar o item quando input checkbo
             if (botao.prop("checked")) {
                 paragrafo.addClass('riscado');
                 item.riscado = true;
+                moveItemRiscado(valor);
                 guardaItensLocalStorage();
             } else {
                 paragrafo.removeClass('riscado');
@@ -254,6 +258,44 @@ var riscaItem = function () { //função para riscar o item quando input checkbo
     });
 }
 
+var moveItemRiscado = function (valor) {
+    var liRiscado = $(`.item-${valor}`);
+    var valInputLiRiscado = liRiscado.find($('input')).val();
+    var arrayListaItens = $('li');
+    var ultimoLi = arrayListaItens[arrayListaItens.length - 1];
+    $(ultimoLi).after(liRiscado);
+
+    arrayItens.forEach((element) => {
+        if (element.id > (element.id = valInputLiRiscado)) {
+            element.posicao -= 1;
+            atualizaPosicaoNaLista(element);
+        } else {
+            element.posicao = arrayListaItens.length - 1;
+        }
+    })
+}
+
+var atualizaPosicaoNaLista = function (element) {
+    var posicaoAnterior = element.posicao - 1;
+    var liElement = $(`.item-${element.id}`);
+    var liAnteriorElement = $(`.item-${posicaoAnterior}`);
+    $(liAnteriorElement).after(liElement);
+}
+
+var verificaItensRiscados = function () {
+    var c = 0;
+    arrayItens.forEach((element) => { //quando clica no botão verifica se todos itens estão riscados, evita bug de ter que clicar 2x para desmarcar, serve principalmente no primeiro load da página
+        if (element.riscado) {
+            c++;
+        }
+        if (element.status == "ativo") {
+            c--;
+        }
+    })
+    if (!c) {
+        botaoRiscaTodos.attr('data-value', 'true');
+    }
+}
 
 var removeTodos = function () {
     var listaItens = $('.item-lista');
