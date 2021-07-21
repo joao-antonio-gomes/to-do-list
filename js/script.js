@@ -3,12 +3,14 @@ $(document).ready(function () {
     adicionarItemComEnter();
     carregaLocalStorageOnload();
     if (contaItensAtivos() >= 1) {
-        mostraLinhaRiscaApagaTodos();
+        mostraLinha(liRiscaApagaTodos);
     }
+    atualizaPosicaoNaLista();
 });
 const botaoAdiciona = $("#adicionar-item");
 const inputEscreveItem = $('#nome-item');
 const liRiscaApagaTodos = $('.risca-apaga-todos');
+const liItensRiscados = $('.itens-riscados');
 
 var adicionarItemComClick = function () { //adiciona item com click esquerdo mouse no botão
     botaoAdiciona.on("click", function (e) {
@@ -32,7 +34,7 @@ var adicionaItemNaLista = function () {
     } else {
         if (salvaItemArray(nomeItem)) { //adiciona item na lista, limpa e volta foco pro campo input, e guarda array de itens no local storage
             if (contaItensAtivos() >= 1) { //chama linha de risca/apaga todos quando adiciona primeiro item na lista
-                mostraLinhaRiscaApagaTodos();
+                mostraLinha(liRiscaApagaTodos);
             }
             criaElementoNaLista();
             inputEscreveItem.val('');
@@ -54,10 +56,12 @@ var riscaItem = function () { //função para riscar o item quando input checkbo
             if (botao.prop("checked")) {
                 paragrafo.addClass('riscado');
                 arrayItens[index].riscado = true;
+                moveItemRiscado(valor);
                 guardaItensLocalStorage();
             } else {
                 paragrafo.removeClass('riscado');
                 arrayItens[index].riscado = false;
+                organizaItensDesriscados();
                 guardaItensLocalStorage();
             }
         }
@@ -66,7 +70,7 @@ var riscaItem = function () { //função para riscar o item quando input checkbo
 }
 
 var removeItem = function () { //função para remover item da lista
-    $(".list-group").one('click', function (e) {
+    $(".lista-geral").one('click', function (e) {
         var botao = $(e.target);
         if ($(e.target).hasClass("botao-apagar")) {
             if (window.confirm('Você realmente quer excluir esse item?')) {
@@ -80,7 +84,7 @@ var removeItem = function () { //função para remover item da lista
                         elementoPai.remove();
                     })
                 })
-                if (contaItensAtivos() == 0) { escondeLinhaRiscaApagaTodos() };
+                if (contaItensAtivos() == 0) { escondeLinha(liRiscaApagaTodos) };
             }
         }
         else return;
@@ -120,7 +124,7 @@ var mostraEscondeAlerta = function (string) { //função para mostrar e esconder
 }
 
 function criaElementoNaLista(id) {
-    var ul = $('.list-group');  //captura ul no body onde serão anexadas as <li>
+    var ul = $('.lista-geral');  //captura ul no body onde serão anexadas as <li>
 
     var posicaoItemLista;
     if (id != undefined) {
@@ -184,21 +188,21 @@ var contaItensAtivos = function () {
     return c;
 }
 
-var escondeLinhaRiscaApagaTodos = function () {
-    liRiscaApagaTodos.animate({ opacity: '0' }, 500, function () {
-        liRiscaApagaTodos.animate({ height: '0px' }, 300, function () {
-            liRiscaApagaTodos.css('visibility', 'hidden');
+var escondeLinha = function (item) {
+    item.animate({ opacity: '0' }, 500, function () {
+        item.animate({ height: '0px' }, 300, function () {
+            item.css('visibility', 'hidden');
         })
     })
 }
 
-var mostraLinhaRiscaApagaTodos = function () {
-    liRiscaApagaTodos.animate({ opacity: '1' }, 50, function () {
-        liRiscaApagaTodos.animate({ height: '40px' }, 50, function () {
+var mostraLinha = function (item) {
+    item.animate({ opacity: '1' }, 50, function () {
+        item.animate({ height: '40px' }, 50, function () {
         })
     })
-    liRiscaApagaTodos.css('visibility', 'visible');
-    liRiscaApagaTodos.fadeIn('fast')
+    item.css('visibility', 'visible');
+    item.fadeIn('fast')
 }
 
 var acharPosicaoNoArray = function (palavra) {
@@ -229,62 +233,46 @@ var riscaTodos = function () {
         guardaItensLocalStorage();
     } else {
         botaoRiscaTodos.attr('data-value', 'false')
-        checkbox.prop("checked", false);
-        $(`.item-lista  > p`).removeClass('riscado');
-        arrayItens.forEach(element => { element.riscado = false })
-        guardaItensLocalStorage();
+        desriscaTodos();
     }
 }
 
-var riscaItem = function () { //função para riscar o item quando input checkbox está checked
-    $(".list-group-item").one('click', function (e) {
-        var botao = $(e.target);
-        if (botao.hasClass("marcar-feito")) {
-            var valor = botao.val();
-            var paragrafo = $(`#item-${valor}`);
-            var item = acharItemPorId(valor);
-            if (botao.prop("checked")) {
-                paragrafo.addClass('riscado');
-                item.riscado = true;
-                moveItemRiscado(valor);
-                guardaItensLocalStorage();
-            } else {
-                paragrafo.removeClass('riscado');
-                item.riscado = false;
-                guardaItensLocalStorage();
-            }
-        }
-        else return;
-    });
+var desriscaTodos = function () {
+    $('.marcar-feito').prop("checked", false);
+    $(`.item-lista  > p`).removeClass('riscado');
+    arrayItens.forEach(element => {
+        element.riscado = false
+        organizaItensDesriscados();
+    })
+    guardaItensLocalStorage();
 }
 
 var moveItemRiscado = function (valor) {
     var liRiscado = $(`.item-${valor}`);
-    var valInputLiRiscado = liRiscado.find($('input')).val();
-    var arrayListaItens = $('li');
-    var ultimoLi = arrayListaItens[arrayListaItens.length - 1];
-    $(ultimoLi).after(liRiscado);
+    liRiscado.appendTo($(".lista-riscados"));
+}
 
+var organizaItensDesriscados = function () {
     arrayItens.forEach((element) => {
-        if (element.id > (element.id = valInputLiRiscado)) {
-            element.posicao -= 1;
-            atualizaPosicaoNaLista(element);
-        } else {
-            element.posicao = arrayListaItens.length - 1;
+        if (!element.riscado) {
+            $(`.item-${element.id}`).appendTo($(".lista-geral"));
         }
     })
 }
 
-var atualizaPosicaoNaLista = function (element) {
-    var posicaoAnterior = element.posicao - 1;
-    var liElement = $(`.item-${element.id}`);
-    var liAnteriorElement = $(`.item-${posicaoAnterior}`);
-    $(liAnteriorElement).after(liElement);
+var atualizaPosicaoNaLista = function () {
+    arrayItens.forEach((element) => {
+        if (element.riscado) {
+            moveItemRiscado(element.id);
+        }
+    })
 }
 
+//quando clica no botão verifica se todos itens estão riscados, evita bug de ter que clicar 2x para desmarcar, 
+//serve principalmente no primeiro load da página
 var verificaItensRiscados = function () {
     var c = 0;
-    arrayItens.forEach((element) => { //quando clica no botão verifica se todos itens estão riscados, evita bug de ter que clicar 2x para desmarcar, serve principalmente no primeiro load da página
+    arrayItens.forEach((element) => {
         if (element.riscado) {
             c++;
         }
@@ -293,7 +281,7 @@ var verificaItensRiscados = function () {
         }
     })
     if (!c) {
-        botaoRiscaTodos.attr('data-value', 'true');
+        $(".risca-todos").attr('data-value', 'true');
     }
 }
 
@@ -305,7 +293,7 @@ var removeTodos = function () {
             listaItens.remove();
         })
     })
-    escondeLinhaRiscaApagaTodos();
+    escondeLinha(liRiscaApagaTodos);
     arrayItens.forEach(element => { element.status = "excluido" })
     guardaItensLocalStorage();
 }

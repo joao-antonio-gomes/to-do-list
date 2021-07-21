@@ -37,12 +37,18 @@
 
 
 
-        <ul class="list-group">
-            <li class="list-group-item risca-apaga-todos item-0">
+        <ul class="list-group lista-geral">
+            <li class="list-group-item risca-apaga-todos">
                 <i class="bi bi-check-square risca-todos" data-value='false' onclick="riscaTodos()"
                    title="Marcar/Desmarcar todos"></i>
                 <i class="bi bi-x-square apaga-todos" onclick="removeTodos()" title="Excluir todos"></i>
             </li>
+        </ul>
+
+        <ul class="lista-riscados">
+            <i class="bi bi-arrow-down-square subtrai-itens-riscados escondido"></i><br>
+            <i class="bi bi-arrow-up-square expande-itens-riscados"></i>
+
         </ul>
     </div>
 

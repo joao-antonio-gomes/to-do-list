@@ -52,7 +52,10 @@ input[type="checkbox"] {
 }
 
 .risca-todos,
-.apaga-todos {
+.apaga-todos,
+.desrisca-todos,
+.expande-itens-riscados,
+.subtrai-itens-riscados {
     font-size: 20px;
     line-height: 16px;
     padding: 0px;
@@ -62,12 +65,34 @@ input[type="checkbox"] {
 }
 
 .risca-todos:hover,
-.apaga-todos:hover {
+.apaga-todos:hover,
+.desrisca-todos:hover,
+.expande-itens-riscados:hover,
+.subtrai-itens-riscados:hover {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
         rgba(0, 0, 0, 0.23) 0px 3px 6px;
     transition: .2s ease-in;
 }
 
 .risca-apaga-todos {
+    visibility: hidden;
+}
+
+.lista-riscados {
+    content: "";
+    margin-top: 5vh;
+    border-top: 2px solid rgba(80, 80, 80, 0.637);
+    padding-top: 2vh;
+    position: relative;
+}
+
+.expande-itens-riscados,
+.subtrai-itens-riscados {
+    position: absolute;
+    top: 1vh;
+    left: 1vh;
+}
+
+.escondido {
     visibility: hidden;
 }
