@@ -6,6 +6,8 @@ $(document).ready(function () {
         mostraLinha(liRiscaApagaTodos);
     }
     atualizaPosicaoNaLista();
+    mostraEscondeItensRiscados();
+    mostraEscondeListaItensRiscados();
 });
 const botaoAdiciona = $("#adicionar-item");
 const inputEscreveItem = $('#nome-item');
@@ -57,11 +59,15 @@ var riscaItem = function () { //função para riscar o item quando input checkbo
                 paragrafo.addClass('riscado');
                 arrayItens[index].riscado = true;
                 moveItemRiscado(valor);
+                mostraEscondeListaItensRiscados();
+                if (contaItensAtivos() == 0) { escondeLinha(liRiscaApagaTodos) };
                 guardaItensLocalStorage();
             } else {
                 paragrafo.removeClass('riscado');
                 arrayItens[index].riscado = false;
                 organizaItensDesriscados();
+                mostraEscondeListaItensRiscados()
+                if (contaItensAtivos() != 0) { mostraLinha(liRiscaApagaTodos) };
                 guardaItensLocalStorage();
             }
         }
@@ -183,26 +189,19 @@ var salvaItemArray = function (itemLista) {
 var contaItensAtivos = function () {
     var c = 0;
     arrayItens.forEach((element) => {
-        if (element["status"] == "ativo") c++;
+        if (element.status == "ativo" && element.riscado == false) c++;
     })
     return c;
 }
 
 var escondeLinha = function (item) {
-    item.animate({ opacity: '0' }, 500, function () {
-        item.animate({ height: '0px' }, 300, function () {
-            item.css('visibility', 'hidden');
-        })
+    item.animate({ opacity: '0', height: '0' }, 500, function () {
     })
 }
 
 var mostraLinha = function (item) {
-    item.animate({ opacity: '1' }, 50, function () {
-        item.animate({ height: '40px' }, 50, function () {
-        })
+    item.animate({ opacity: '1', height: '40px' }, 500, function () {
     })
-    item.css('visibility', 'visible');
-    item.fadeIn('fast')
 }
 
 var acharPosicaoNoArray = function (palavra) {
@@ -229,7 +228,11 @@ var riscaTodos = function () {
         botaoRiscaTodos.attr('data-value', 'true')
         checkbox.prop("checked", true);
         $(`.item-lista  > p`).addClass('riscado');
-        arrayItens.forEach(element => { element.riscado = true });
+        arrayItens.forEach(element => {
+            element.riscado = true
+            moveItemRiscado(element.id)
+        });
+        mostraEscondeListaItensRiscados();
         guardaItensLocalStorage();
     } else {
         botaoRiscaTodos.attr('data-value', 'false')
@@ -244,12 +247,30 @@ var desriscaTodos = function () {
         element.riscado = false
         organizaItensDesriscados();
     })
+    mostraEscondeListaItensRiscados();
     guardaItensLocalStorage();
 }
 
 var moveItemRiscado = function (valor) {
     var liRiscado = $(`.item-${valor}`);
-    liRiscado.appendTo($(".lista-riscados"));
+    liRiscado.appendTo($(".agrega-itens-escondidos"));
+
+}
+
+var mostraEscondeListaItensRiscados = function () {
+    var c = 0;
+    arrayItens.forEach(element => {
+        if (element.riscado) {
+            c++
+        }
+    })
+
+    if (c != 0) {
+        $(".lista-riscados").fadeIn();
+        return;
+    }
+    $(".lista-riscados").fadeOut();
+    return;
 }
 
 var organizaItensDesriscados = function () {
@@ -266,6 +287,30 @@ var atualizaPosicaoNaLista = function () {
             moveItemRiscado(element.id);
         }
     })
+}
+
+var mostraEscondeItensRiscados = function () {
+    var valorDataShow;
+    if (localStorage.getItem('DataShow')) {
+        valorDataShow = localStorage.getItem('DataShow');
+    } else {
+        valorDataShow = $(`.agrega-itens-escondidos`).attr('data-show');
+    }
+
+    if (valorDataShow == 'true') {
+        $(".subtrai-itens-riscados").addClass('escondido');
+        $(".expande-itens-riscados").removeClass('escondido');
+        $(`.agrega-itens-escondidos`).fadeIn('fast');
+        $(`.agrega-itens-escondidos`).attr('data-show', 'false')
+    } else {
+        $(".subtrai-itens-riscados").removeClass('escondido');
+        $(".expande-itens-riscados").addClass('escondido');
+        $(`.agrega-itens-escondidos`).fadeOut('fast');
+        $(`.agrega-itens-escondidos`).attr('data-show', 'true')
+    }
+
+    var novoValor = $(`.agrega-itens-escondidos`).attr('data-show');
+    localStorage.setItem('DataShow', novoValor);
 }
 
 //quando clica no botão verifica se todos itens estão riscados, evita bug de ter que clicar 2x para desmarcar, 
@@ -288,6 +333,9 @@ var verificaItensRiscados = function () {
 var removeTodos = function () {
     var listaItens = $('.item-lista');
 
+    if (!window.confirm('Você realmente quer excluir todos os itens?')) {
+        return;
+    }
     listaItens.animate({ opacity: '0' }, 500, function () {
         listaItens.animate({ height: '0px' }, 300, function () {
             listaItens.remove();
