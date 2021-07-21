@@ -4,9 +4,11 @@ $(document).ready(function () {
     carregaLocalStorageOnload();
     if (contaItensAtivos() >= 1) {
         mostraLinha(liRiscaApagaTodos);
+    } else {
+        escondeLinha(liRiscaApagaTodos)
     }
     atualizaPosicaoNaLista();
-    mostraEscondeItensRiscados();
+    mostraEscondeItensRiscadosOnload();
     mostraEscondeListaItensRiscados();
 });
 const botaoAdiciona = $("#adicionar-item");
@@ -76,7 +78,7 @@ var riscaItem = function () { //função para riscar o item quando input checkbo
 }
 
 var removeItem = function () { //função para remover item da lista
-    $(".lista-geral").one('click', function (e) {
+    $("ul").one('click', function (e) {
         var botao = $(e.target);
         if ($(e.target).hasClass("botao-apagar")) {
             if (window.confirm('Você realmente quer excluir esse item?')) {
@@ -90,7 +92,7 @@ var removeItem = function () { //função para remover item da lista
                         elementoPai.remove();
                     })
                 })
-                if (contaItensAtivos() == 0) { escondeLinha(liRiscaApagaTodos) };
+                if (contaItensAtivos() == 0) { escondeLinha(liRiscaApagaTodos) }
             }
         }
         else return;
@@ -189,17 +191,24 @@ var salvaItemArray = function (itemLista) {
 var contaItensAtivos = function () {
     var c = 0;
     arrayItens.forEach((element) => {
-        if (element.status == "ativo" && element.riscado == false) c++;
+        if (element.status == "ativo" && element.riscado == false) {
+            c++;
+            if (element.riscado == true) {
+                c--;
+            }
+        }
     })
     return c;
 }
 
 var escondeLinha = function (item) {
     item.animate({ opacity: '0', height: '0' }, 500, function () {
+        item.hide();
     })
 }
 
 var mostraLinha = function (item) {
+    item.show();
     item.animate({ opacity: '1', height: '40px' }, 500, function () {
     })
 }
@@ -232,6 +241,7 @@ var riscaTodos = function () {
             element.riscado = true
             moveItemRiscado(element.id)
         });
+        if (contaItensAtivos() == 0) { escondeLinha(liRiscaApagaTodos) }
         mostraEscondeListaItensRiscados();
         guardaItensLocalStorage();
     } else {
@@ -254,7 +264,6 @@ var desriscaTodos = function () {
 var moveItemRiscado = function (valor) {
     var liRiscado = $(`.item-${valor}`);
     liRiscado.appendTo($(".agrega-itens-escondidos"));
-
 }
 
 var mostraEscondeListaItensRiscados = function () {
@@ -262,6 +271,9 @@ var mostraEscondeListaItensRiscados = function () {
     arrayItens.forEach(element => {
         if (element.riscado) {
             c++
+            if (element.status == "excluido") {
+                c--;
+            }
         }
     })
 
@@ -289,28 +301,46 @@ var atualizaPosicaoNaLista = function () {
     })
 }
 
-var mostraEscondeItensRiscados = function () {
-    var valorDataShow;
-    if (localStorage.getItem('DataShow')) {
-        valorDataShow = localStorage.getItem('DataShow');
-    } else {
-        valorDataShow = $(`.agrega-itens-escondidos`).attr('data-show');
-    }
+var arrayMostraEscondeItensRiscados = [$(".seta-baixo"), $(".seta-cima"), $(".agrega-itens-escondidos")];
+var mostraItensRiscados = function () {
+    $(`.agrega-itens-escondidos`).fadeIn('fast');
+    $(".seta-cima").hide();
+    $(".seta-baixo").fadeIn();
+    inverteDataShowMostraEscondeItens();
+    storageMostraEscondeItensRiscados();
+}
 
-    if (valorDataShow == 'true') {
-        $(".subtrai-itens-riscados").addClass('escondido');
-        $(".expande-itens-riscados").removeClass('escondido');
-        $(`.agrega-itens-escondidos`).fadeIn('fast');
-        $(`.agrega-itens-escondidos`).attr('data-show', 'false')
-    } else {
-        $(".subtrai-itens-riscados").removeClass('escondido');
-        $(".expande-itens-riscados").addClass('escondido');
-        $(`.agrega-itens-escondidos`).fadeOut('fast');
-        $(`.agrega-itens-escondidos`).attr('data-show', 'true')
-    }
+var escondeItensRiscados = function () {
+    $(`.agrega-itens-escondidos`).fadeOut('fast');
+    $(".seta-baixo").hide();
+    $(".seta-cima").fadeIn();
+    inverteDataShowMostraEscondeItens();
+    storageMostraEscondeItensRiscados();
+}
 
-    var novoValor = $(`.agrega-itens-escondidos`).attr('data-show');
-    localStorage.setItem('DataShow', novoValor);
+var mostraEscondeItensRiscadosOnload = function () {
+    // $(".seta-baixo").hide();
+    // $(`.agrega-itens-escondidos`).hide();
+    var arrayLocalStorage = JSON.parse(localStorage.getItem('arrayMostraEscondeItensRiscados'));
+    arrayMostraEscondeItensRiscados.forEach(function (element, index) {
+        element.attr('data-show', arrayLocalStorage[index])
+        element.attr('data-show') == 'true' ? element.show() : element.hide()
+    })
+}
+
+var inverteDataShowMostraEscondeItens = function () {
+    arrayMostraEscondeItensRiscados.forEach(element => {
+        element.attr('data-show') == 'true' ? element.attr('data-show', 'false') : element.attr('data-show', 'true')
+    })
+}
+
+var storageMostraEscondeItensRiscados = function () {
+    var array = [];
+    arrayMostraEscondeItensRiscados.forEach(element => {
+        array.push(element.attr('data-show'));
+    })
+
+    localStorage.setItem('arrayMostraEscondeItensRiscados', JSON.stringify(array));
 }
 
 //quando clica no botão verifica se todos itens estão riscados, evita bug de ter que clicar 2x para desmarcar, 
