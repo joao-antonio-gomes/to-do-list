@@ -81,7 +81,7 @@ input[type="checkbox"] {
 
 .lista-riscados {
     margin-top: 5vh;
-    border-top: 2px solid rgba(80, 80, 80, 0.637);
+    border-top: 2px solid rgba(80, 80, 80, 0.383);
     padding-top: 2vh;
     position: relative;
 }
@@ -91,6 +91,16 @@ input[type="checkbox"] {
     position: absolute;
     top: 1vh;
     left: 1.7vh;
+    opacity: 0.5;
+
+}
+
+.numero-itens-riscados {
+    position: absolute;
+    top: 1vh;
+    left: 7vh;
+    font-style: italic;
+    opacity: 0.7;
 }
 
 .escondido {
