@@ -35,7 +35,7 @@ var removeTodos = function () {
         })
     })
     escondeLinha(liRiscaApagaTodos);
-    mostraEscondeListaItensRiscados();
     arrayItens.forEach(element => { element.status = "excluido" })
+    mostraEscondeListaItensRiscados();
     guardaItensLocalStorage();
 }
