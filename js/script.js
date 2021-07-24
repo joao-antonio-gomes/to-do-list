@@ -77,17 +77,3 @@ var mostraLinha = function (item) {
     item.animate({ opacity: '1', height: '40px' }, 200, function () {
     })
 }
-
-var ocultaLinhas = function () {
-    var itensAtivosRiscados = contaItensAtivos();
-    var numeroItensAtivos = itensAtivosRiscados[0];
-    var numeroItensRiscados = itensAtivosRiscados[1];
-
-    if (numeroItensAtivos == numeroItensRiscados) {
-
-    } else if (numeroItensAtivos > numeroItensRiscados) {
-
-    } else if (numeroItensAtivos < numeroItensRiscados) {
-
-    }
-}
