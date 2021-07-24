@@ -17,14 +17,19 @@ body {
 .botao-apagar {
     font-size: 18px;
     font-weight: 600;
-    color: red;
     transition: .5s ease-out;
     cursor: pointer;
 }
 
 .botao-apagar:hover {
+    transform: rotate(20deg);
+    transition: .2s ease-in;
+}
+
+.btn-outline-secondary {
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
     color: black;
-    transition: .5s ease-in;
 }
 
 .list-group-item {
@@ -39,6 +44,16 @@ body {
 
 .riscado {
     text-decoration: line-through;
+    color: rgb(138, 138, 138);
+}
+
+.form-check-input:checked {
+    background-color: rgb(138, 138, 138);
+    border-color: rgb(138, 138, 138);
+}
+
+.background-riscado {
+    background-color: rgb(219, 219, 219);
 }
 
 .fadeOut {
@@ -49,34 +64,6 @@ body {
 input[type="checkbox"] {
     margin-right: 10px !important;
     cursor: pointer;
-}
-
-.risca-todos,
-.apaga-todos,
-.desrisca-todos,
-.seta-baixo,
-.seta-cima {
-    font-size: 20px;
-    line-height: 16px;
-    padding: 0px;
-    margin: 0px;
-    cursor: pointer;
-    transition: .5s ease-out;
-}
-
-.risca-todos:hover,
-.apaga-todos:hover,
-.desrisca-todos:hover,
-.seta-baixo:hover,
-.seta-cima:hover {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
-        rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    transition: .2s ease-in;
-}
-
-.risca-apaga-todos {
-    opacity: 0;
-    height: 0px;
 }
 
 .lista-riscados {
@@ -92,7 +79,7 @@ input[type="checkbox"] {
     top: 1vh;
     left: 1.7vh;
     opacity: 0.5;
-
+    cursor: pointer;
 }
 
 .numero-itens-riscados {
@@ -106,4 +93,12 @@ input[type="checkbox"] {
 .escondido {
     opacity: 0;
     height: 0px;
+}
+
+.menu-dropdown {
+    cursor: pointer;
+    width: 30px;
+    text-align: center;
+    margin-right: -5px;
+    margin-bottom: 10px;
 }

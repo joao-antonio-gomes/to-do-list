@@ -2,15 +2,16 @@ $(document).ready(function () {
     adicionarItemComClick();
     adicionarItemComEnter();
     carregaLocalStorageOnload();
-    var itensAtivosRiscados = contaItensAtivos();
-    if (itensAtivosRiscados[0] == itensAtivosRiscados[1]) {
-        escondeLinha(liRiscaApagaTodos)
-    } else {
-        mostraLinha(liRiscaApagaTodos);
-    }
-    atualizaPosicaoNaListaOnload();
     mostraEscondeItensRiscadosOnload();
     mostraEscondeListaItensRiscados();
+    var itensAtivosRiscados = contaItensAtivos();
+    if (itensAtivosRiscados[0] == 0) {
+        $('.risca-todos').hide();
+        $('.risca-todos').text('Marca todos itens');
+        $('.risca-todos').attr('data-value', 'false');
+        $(".apaga-itens-marcados").hide();
+        $(".menu-dropdown").hide();
+    }
 });
 
 var alertaFaltaItem = function (string) { //função padrão para chamar alerta no botão adicionar
@@ -75,4 +76,18 @@ var mostraLinha = function (item) {
     item.show();
     item.animate({ opacity: '1', height: '40px' }, 200, function () {
     })
+}
+
+var ocultaLinhas = function () {
+    var itensAtivosRiscados = contaItensAtivos();
+    var numeroItensAtivos = itensAtivosRiscados[0];
+    var numeroItensRiscados = itensAtivosRiscados[1];
+
+    if (numeroItensAtivos == numeroItensRiscados) {
+
+    } else if (numeroItensAtivos > numeroItensRiscados) {
+
+    } else if (numeroItensAtivos < numeroItensRiscados) {
+
+    }
 }

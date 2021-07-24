@@ -1,4 +1,4 @@
-var riscaItem = function () { //função para riscar o item quando input checkbox está checked
+var riscaItem = function () { //função para riscar o item
     $(".list-group-item").one('click', function (e) {
         var botao = $(e.target);
         if (botao.hasClass("marcar-feito")) {
@@ -6,19 +6,28 @@ var riscaItem = function () { //função para riscar o item quando input checkbo
             var paragrafo = $(`#item-${valor}`);
             if (botao.prop("checked")) {
                 paragrafo.addClass('riscado');
+                $(`.item-${valor}`).addClass('background-riscado');
                 arrayItens[valor].riscado = true;
                 moveItemRiscado(valor);
                 mostraEscondeListaItensRiscados();
                 var itensAtivosRiscados = contaItensAtivos();
-                if (itensAtivosRiscados[1] == itensAtivosRiscados[0]) { escondeLinha(liRiscaApagaTodos) }
+                if (itensAtivosRiscados[1] >= 1) {
+                    $('.risca-todos').text('Desmarcar todos itens');
+                    $('.risca-todos').attr('data-value', 'true');
+                    $(".apaga-itens-marcados").show();
+                }
                 guardaItensLocalStorage();
             } else {
                 paragrafo.removeClass('riscado');
+                $(`.item-${valor}`).removeClass('background-riscado');
                 arrayItens[valor].riscado = false;
                 organizaItensDesriscados();
                 mostraEscondeListaItensRiscados();
                 var itensAtivosRiscados = contaItensAtivos();
-                if (itensAtivosRiscados[1] < itensAtivosRiscados[0]) { mostraLinha(liRiscaApagaTodos) }
+                if (itensAtivosRiscados[1] < itensAtivosRiscados[0]) {
+                    $('.risca-todos').text('Marcar todos itens');
+                    $(".apaga-itens-marcados").hide();
+                }
                 guardaItensLocalStorage();
             }
         }
@@ -33,19 +42,25 @@ var riscaTodos = function () {
     mostraEscondeListaItensRiscados();
 
     if (botaoRiscaTodos.attr('data-value') == 'false') {
-        botaoRiscaTodos.attr('data-value', 'true')
         checkbox.prop("checked", true);
         $(`.item-lista  > p`).addClass('riscado');
-        arrayItens.forEach(element => {
+        arrayItens.forEach(function (element, index) {
             element.riscado = true
             moveItemRiscado(element.id)
+            $(`.item-${index}`).addClass('background-riscado');
         });
         var itensAtivosRiscados = contaItensAtivos();
-        if (itensAtivosRiscados[1] == itensAtivosRiscados[0]) { escondeLinha(liRiscaApagaTodos) }
+        if (itensAtivosRiscados[1] == itensAtivosRiscados[0]) {
+            botaoRiscaTodos.text('Desmarca todos itens');
+            botaoRiscaTodos.attr('data-value', 'true');
+            $(".apaga-itens-marcados").show();
+        }
         mostraEscondeListaItensRiscados();
         guardaItensLocalStorage();
     } else {
-        botaoRiscaTodos.attr('data-value', 'false')
+        botaoRiscaTodos.text('Marca todos itens');
+        botaoRiscaTodos.attr('data-value', 'false');
+        $(".apaga-itens-marcados").hide();
         desriscaTodos();
     }
 }
@@ -53,10 +68,14 @@ var riscaTodos = function () {
 var desriscaTodos = function () {
     $('.marcar-feito').prop("checked", false);
     $(`.item-lista  > p`).removeClass('riscado');
-    arrayItens.forEach(element => {
+    arrayItens.forEach(function (element, index) {
         element.riscado = false
         organizaItensDesriscados();
+        $(`.item-${index}`).removeClass('background-riscado');
     })
+    $('.risca-todos').text('Marca todos itens');
+    $('.risca-todos').attr('data-value', 'false');
+    $(".apaga-itens-marcados").hide();
     mostraEscondeListaItensRiscados();
     guardaItensLocalStorage();
 }
@@ -81,14 +100,6 @@ var organizaItensDesriscados = function () {
     arrayItens.forEach((element) => {
         if (!element.riscado) {
             $(`.item-${element.id}`).appendTo($(".lista-geral"));
-        }
-    })
-}
-
-var atualizaPosicaoNaListaOnload = function () {
-    arrayItens.forEach((element) => {
-        if (element.riscado) {
-            moveItemRiscado(element.id);
         }
     })
 }

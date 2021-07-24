@@ -38,11 +38,19 @@
 
 
         <ul class="list-group lista-geral">
-            <li class="list-group-item risca-apaga-todos">
-                <i class="bi bi-check-square risca-todos" data-value='false' onclick="riscaTodos()"
-                   title="Marcar/Desmarcar todos"></i>
-                <i class="bi bi-x-square apaga-todos" onclick="removeTodos()" title="Excluir todos"></i>
-            </li>
+            <div class="btn-group dropend d-flex flex-row-reverse">
+                <i class="bi bi-three-dots-vertical menu-dropdown" id="dropdownMenuClickable" data-bs-toggle="dropdown"
+                   data-bs-auto-close="false" aria-expanded="false"></i>
+                <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
+                    <li><a class="dropdown-item risca-todos" href="#" data-value='false' onclick="riscaTodos()">Marca
+                            todos itens</a></li>
+                    <li><a class="dropdown-item apaga-todos" onclick="removeTodos()" href="#">Apagar todos itens</a>
+                    </li>
+                    <li><a class="dropdown-item apaga-itens-marcados" onclick="removeItensRiscados()" href="#">Apagar
+                            itens marcados</a>
+                    </li>
+                </ul>
+            </div>
         </ul>
 
         <ul class="lista-riscados">

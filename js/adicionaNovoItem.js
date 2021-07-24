@@ -1,6 +1,5 @@
 const botaoAdiciona = $("#adicionar-item");
 const inputEscreveItem = $('#nome-item');
-const liRiscaApagaTodos = $('.risca-apaga-todos');
 const liItensRiscados = $('.itens-riscados');
 
 var adicionarItemComClick = function () { //adiciona item com click esquerdo mouse no botão
@@ -25,7 +24,11 @@ var adicionaItemNaLista = function () {
     } else {
         if (salvaItemArray(nomeItem)) { //adiciona item na lista, limpa e volta foco pro campo input, e guarda array de itens no local storage
             var itensAtivosRiscados = contaItensAtivos();
-            if (itensAtivosRiscados[1] < itensAtivosRiscados[0]) { mostraLinha(liRiscaApagaTodos) }
+            if (itensAtivosRiscados[0] == 1) {
+                $('.risca-todos').show();
+                $(".apaga-todos").show();
+                $(".menu-dropdown").show();
+            }
             criaElementoNaLista();
             inputEscreveItem.val('');
             inputEscreveItem.focus();
