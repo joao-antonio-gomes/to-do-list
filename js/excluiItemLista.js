@@ -84,5 +84,7 @@ var removeItensRiscados = function () {
         $(".menu-dropdown").hide();
     }
     mostraEscondeListaItensRiscados();
+    arrayItens.forEach(element => { element.status = "excluido" })
+    mostraEscondeListaItensRiscados();
     guardaItensLocalStorage();
 }
