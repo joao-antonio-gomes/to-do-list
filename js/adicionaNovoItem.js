@@ -23,16 +23,10 @@ var adicionaItemNaLista = function () {
         mostraEscondeAlerta("Por favor, adicione um item!");
     } else {
         if (salvaItemArray(nomeItem)) { //adiciona item na lista, limpa e volta foco pro campo input, e guarda array de itens no local storage
-            var itensAtivosRiscados = contaItensAtivos();
-            if (itensAtivosRiscados[0] == 1) {
-                $('.risca-todos').show();
-                $(".apaga-todos").show();
-                $(".menu-dropdown").show();
-            }
             criaElementoNaLista();
             inputEscreveItem.val('');
             inputEscreveItem.focus();
-            guardaItensLocalStorage();
+            ocultaLinhas();
         } else {
             mostraEscondeAlerta("Por favor, adicione um item!");
         }

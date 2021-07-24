@@ -13,20 +13,7 @@ var removeItem = function () { //função para remover item da lista
                         elementoPai.remove();
                     })
                 })
-                var itensAtivosRiscados = contaItensAtivos();
-                if (itensAtivosRiscados[1] == 0) {
-                    $('.risca-todos').text('Marca todos itens');
-                    $('.risca-todos').attr('data-value', 'false');
-                }
-                if (itensAtivosRiscados[0] == 0) {
-                    $('.risca-todos').hide();
-                    $('.risca-todos').text('Marca todos itens');
-                    $('.risca-todos').attr('data-value', 'false');
-                    $(".apaga-itens-marcados").hide();
-                    $(".apaga-todos").hide();
-                    $(".menu-dropdown").hide();
-                }
-                mostraEscondeListaItensRiscados();
+                ocultaLinhas();
             }
         }
         else return;
@@ -35,7 +22,6 @@ var removeItem = function () { //função para remover item da lista
 
 var removeTodos = function () {
     var listaItens = $('.item-lista');
-
     if (!window.confirm('Você realmente quer excluir todos os itens?')) {
         return;
     }
@@ -45,20 +31,13 @@ var removeTodos = function () {
         })
     })
     arrayItens.forEach(element => { element.status = "excluido" })
-    mostraEscondeListaItensRiscados();
-    var itensAtivosRiscados = contaItensAtivos();
-    if (itensAtivosRiscados[0] == 0) {
-        $('.risca-todos').hide();
-        $('.risca-todos').text('Marca todos itens');
-        $('.risca-todos').attr('data-value', 'false');
-        $(".apaga-itens-marcados").hide();
-        $(".apaga-todos").hide();
-        $(".menu-dropdown").hide();
-    }
-    guardaItensLocalStorage();
+    ocultaLinhas();
 }
 
 var removeItensRiscados = function () {
+    if (!window.confirm('Você realmente quer excluir todos os itens riscados?')) {
+        return;
+    }
     arrayItens.forEach(function (element, index) {
         if (element.riscado == true && element.status == 'ativo') {
             element.status = "excluido";
@@ -70,21 +49,5 @@ var removeItensRiscados = function () {
             })
         }
     })
-    var itensAtivosRiscados = contaItensAtivos();
-    if (itensAtivosRiscados[1] == 0) {
-        $('.risca-todos').text('Marca todos itens');
-        $('.risca-todos').attr('data-value', 'false');
-        $(".apaga-itens-marcados").hide();
-    }
-    if (itensAtivosRiscados[0] == 0) {
-        $('.risca-todos').hide();
-        $('.risca-todos').text('Marca todos itens');
-        $('.risca-todos').attr('data-value', 'false');
-        $(".apaga-todos").hide();
-        $(".menu-dropdown").hide();
-    }
-    mostraEscondeListaItensRiscados();
-    arrayItens.forEach(element => { element.status = "excluido" })
-    mostraEscondeListaItensRiscados();
-    guardaItensLocalStorage();
+    ocultaLinhas();
 }

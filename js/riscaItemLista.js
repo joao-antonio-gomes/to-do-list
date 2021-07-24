@@ -9,26 +9,13 @@ var riscaItem = function () { //função para riscar o item
                 $(`.item-${valor}`).addClass('background-riscado');
                 arrayItens[valor].riscado = true;
                 moveItemRiscado(valor);
-                mostraEscondeListaItensRiscados();
-                var itensAtivosRiscados = contaItensAtivos();
-                if (itensAtivosRiscados[1] >= 1) {
-                    $('.risca-todos').text('Desmarcar todos itens');
-                    $('.risca-todos').attr('data-value', 'true');
-                    $(".apaga-itens-marcados").show();
-                }
-                guardaItensLocalStorage();
+                ocultaLinhas();
             } else {
                 paragrafo.removeClass('riscado');
                 $(`.item-${valor}`).removeClass('background-riscado');
                 arrayItens[valor].riscado = false;
                 organizaItensDesriscados();
-                mostraEscondeListaItensRiscados();
-                var itensAtivosRiscados = contaItensAtivos();
-                if (itensAtivosRiscados[1] < itensAtivosRiscados[0]) {
-                    $('.risca-todos').text('Marcar todos itens');
-                    $(".apaga-itens-marcados").hide();
-                }
-                guardaItensLocalStorage();
+                ocultaLinhas();
             }
         }
         else return;
@@ -38,9 +25,6 @@ var riscaItem = function () { //função para riscar o item
 var riscaTodos = function () {
     var botaoRiscaTodos = $('.risca-todos');
     var checkbox = $('.marcar-feito');
-
-    mostraEscondeListaItensRiscados();
-
     if (botaoRiscaTodos.attr('data-value') == 'false') {
         checkbox.prop("checked", true);
         $(`.item-lista  > p`).addClass('riscado');
@@ -49,18 +33,9 @@ var riscaTodos = function () {
             moveItemRiscado(element.id)
             $(`.item-${index}`).addClass('background-riscado');
         });
-        var itensAtivosRiscados = contaItensAtivos();
-        if (itensAtivosRiscados[1] == itensAtivosRiscados[0]) {
-            botaoRiscaTodos.text('Desmarca todos itens');
-            botaoRiscaTodos.attr('data-value', 'true');
-            $(".apaga-itens-marcados").show();
-        }
-        mostraEscondeListaItensRiscados();
-        guardaItensLocalStorage();
+        ocultaLinhas();
     } else {
-        botaoRiscaTodos.text('Marca todos itens');
-        botaoRiscaTodos.attr('data-value', 'false');
-        $(".apaga-itens-marcados").hide();
+        ocultaLinhas();
         desriscaTodos();
     }
 }
@@ -73,27 +48,12 @@ var desriscaTodos = function () {
         organizaItensDesriscados();
         $(`.item-${index}`).removeClass('background-riscado');
     })
-    $('.risca-todos').text('Marca todos itens');
-    $('.risca-todos').attr('data-value', 'false');
-    $(".apaga-itens-marcados").hide();
-    mostraEscondeListaItensRiscados();
-    guardaItensLocalStorage();
+    ocultaLinhas();
 }
 
 var moveItemRiscado = function (valor) {
     var liRiscado = $(`.item-${valor}`);
     liRiscado.appendTo($(".agrega-itens-escondidos"));
-}
-
-var mostraEscondeListaItensRiscados = function () {
-    var listaRiscados = $(".lista-riscados");
-    var itensAtivosRiscados = contaItensAtivos();
-
-    if (itensAtivosRiscados[1] > 0) {
-        listaRiscados.fadeIn();
-    } else {
-        listaRiscados.fadeOut();
-    }
 }
 
 var organizaItensDesriscados = function () {
@@ -119,17 +79,6 @@ var escondeItensRiscados = function () {
     $(".seta-cima").fadeIn();
     inverteDataShowMostraEscondeItens();
     storageMostraEscondeItensRiscados();
-}
-
-var mostraEscondeItensRiscadosOnload = function () {
-    if (!localStorage.getItem('arrayMostraEscondeItensRiscados')) {
-        storageMostraEscondeItensRiscados();
-    }
-    var arrayLocalStorage = JSON.parse(localStorage.getItem('arrayMostraEscondeItensRiscados'));
-    arrayMostraEscondeItensRiscados.forEach(function (element, index) {
-        element.attr('data-show', arrayLocalStorage[index])
-        element.attr('data-show') == 'true' ? element.show() : element.hide()
-    })
 }
 
 var inverteDataShowMostraEscondeItens = function () {

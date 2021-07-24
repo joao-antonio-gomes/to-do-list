@@ -2,16 +2,7 @@ $(document).ready(function () {
     adicionarItemComClick();
     adicionarItemComEnter();
     carregaLocalStorageOnload();
-    mostraEscondeItensRiscadosOnload();
-    mostraEscondeListaItensRiscados();
-    var itensAtivosRiscados = contaItensAtivos();
-    if (itensAtivosRiscados[0] == 0) {
-        $('.risca-todos').hide();
-        $('.risca-todos').text('Marca todos itens');
-        $('.risca-todos').attr('data-value', 'false');
-        $(".apaga-itens-marcados").hide();
-        $(".menu-dropdown").hide();
-    }
+    ocultaLinhas();
 });
 
 var alertaFaltaItem = function (string) { //função padrão para chamar alerta no botão adicionar
@@ -76,4 +67,58 @@ var mostraLinha = function (item) {
     item.show();
     item.animate({ opacity: '1', height: '40px' }, 200, function () {
     })
+}
+
+
+var ocultaLinhas = function () {
+    var itensAtivosRiscados = contaItensAtivos();
+    var numeroItensAtivos = itensAtivosRiscados[0];
+    var numeroItensRiscados = itensAtivosRiscados[1];
+    var botaoRiscaTodos = $('.risca-todos');
+    var botaoApagaTodos = $(".apaga-todos");
+    var menu = $(".menu-dropdown");
+    var botaoApagaItensMarcados = $(".apaga-itens-marcados");
+    var listaRiscados = $(".lista-riscados");
+
+    switch (true) {
+        case numeroItensAtivos == 1 && numeroItensRiscados == 0:
+            botaoApagaTodos.fadeIn();
+            menu.fadeIn();
+            listaRiscados.fadeOut();
+            botaoRiscaTodos.text('Marca todos itens');
+            botaoRiscaTodos.attr('data-value', 'false');
+            botaoApagaItensMarcados.hide();
+            break;
+        case numeroItensAtivos > 1 && numeroItensRiscados == 0:
+            listaRiscados.fadeOut();
+            botaoRiscaTodos.text('Marca todos itens');
+            botaoRiscaTodos.attr('data-value', 'false');
+            botaoApagaItensMarcados.hide();
+            break;
+        case numeroItensAtivos == 0:
+            menu.fadeOut();
+            botaoApagaItensMarcados.fadeOut();
+            botaoRiscaTodos.text('Marca todos itens');
+            botaoRiscaTodos.attr('data-value', 'false');
+            listaRiscados.fadeOut();
+            break;
+        case numeroItensRiscados == 1:
+            botaoRiscaTodos.text('Desmarcar todos itens');
+            botaoRiscaTodos.attr('data-value', 'true');
+            botaoApagaItensMarcados.show();
+            listaRiscados.fadeIn();
+            break;
+        case numeroItensRiscados == numeroItensAtivos || numeroItensRiscados >= numeroItensAtivos:
+            botaoRiscaTodos.text('Desmarca todos itens');
+            botaoRiscaTodos.attr('data-value', 'true');
+            botaoApagaItensMarcados.show();
+            listaRiscados.fadeIn();
+            break;
+        case numeroItensRiscados == 0:
+            botaoRiscaTodos.text('Marca todos itens');
+            botaoRiscaTodos.attr('data-value', 'false');
+            botaoApagaItensMarcados.fadeOut();
+            break;
+    }
+    guardaItensLocalStorage();
 }

@@ -32,20 +32,7 @@ var carregaLocalStorageOnload = function () {
             $(`input[type="checkbox"][value=${element.id}]`).prop("checked", true)
         }
     });
-
-    var itensAtivosRiscados = contaItensAtivos();
-    if (itensAtivosRiscados[1] == itensAtivosRiscados[0] || itensAtivosRiscados[1] >= 1) {
-        $('.risca-todos').text('Desmarcar todos itens');
-        $('.risca-todos').attr('data-value', 'true');
-        $(".apaga-itens-marcados").show();
-    }
-
-    if (itensAtivosRiscados[0] == 0) {
-        $('.risca-todos').hide();
-        $(".apaga-itens-marcados").hide();
-        $(".apaga-todos").hide();
-    }
-
+    ocultaLinhas();
 }
 
 var storageMostraEscondeItensRiscados = function () {
