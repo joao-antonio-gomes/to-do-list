@@ -3,6 +3,10 @@ $(document).ready(function () {
     adicionarItemComEnter();
     carregaLocalStorageOnload();
     ocultaLinhas();
+    getListOrder();
+    setInterval(function () {
+        saveListOrder()
+    }, 1000)
 });
 
 var alertaFaltaItem = function (string) { //função padrão para chamar alerta no botão adicionar
