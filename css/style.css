@@ -122,6 +122,8 @@ input[type="checkbox"] {
 .modal {
     left: 50%;
     top: 50%;
+    position: fixed;
+    height: auto !important;
     transform: translate(-50%, -50%);
 }
 

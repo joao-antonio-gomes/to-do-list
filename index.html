@@ -25,41 +25,44 @@
     <header class="container col-8 h1">
         <h1>Lista de Afazeres</h1>
     </header>
+    <div>
+        <div class="container col-8 to-do-list">
+            <div class="input-group mb-3 col-4">
 
-    <div class="container col-8 to-do-list">
-        <div class="input-group mb-3 col-4">
+                <input type="text" class="form-control"
+                       placeholder="Digite aqui um item para adicionar e clique no botão ao lado" aria-label="Username"
+                       aria-describedby="basic-addon1" name="nome-item" id="nome-item">
+                <button class="btn btn-outline-secondary dica" type="submit" id="adicionar-item">Adicionar</button>
 
-            <input type="text" class="form-control"
-                   placeholder="Digite aqui um item para adicionar e clique no botão ao lado" aria-label="Username"
-                   aria-describedby="basic-addon1" name="nome-item" id="nome-item">
-            <button class="btn btn-outline-secondary dica" type="submit" id="adicionar-item">Adicionar</button>
-
-        </div>
-
-        <ul class="list-group lista-geral">
-            <div class="btn-group dropend d-flex flex-row-reverse opcoes">
-                <i class="bi bi-three-dots-vertical menu-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="true"
-                   aria-expanded="false"></i>
-                <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
-                    <li><a class="dropdown-item risca-todos" href="#" data-value='false' onclick="riscaTodos()">Marca
-                            todos itens</a></li>
-                    <li><a class="dropdown-item apaga-todos" data-bs-toggle="modal" onclick="removeTodos()" href="#"
-                           data-bs-target="#modal-apaga-todos">Apagar todos itens</a>
-                    </li>
-                    <li><a class="dropdown-item apaga-itens-marcados" data-bs-toggle="modal"
-                           onclick="removeItensRiscados()" href="#" data-bs-target="#modal-apaga-marcados">Apagar
-                            itens marcados</a>
-                    </li>
-                </ul>
             </div>
-        </ul>
 
-        <ul class="lista-riscados">
-            <i class="bi bi-arrow-down-square seta-baixo" data-show="false" onclick="escondeItensRiscados()"></i><br>
-            <i class="bi bi-arrow-up-square seta-cima" data-show="true" onclick="mostraItensRiscados()"></i>
-            <p class="numero-itens-riscados"></p>
-            <div class="agrega-itens-escondidos" data-show="false"></div>
-        </ul>
+            <ul class="list-group lista-geral">
+                <div class="btn-group dropend d-flex flex-row-reverse opcoes">
+                    <i class="bi bi-three-dots-vertical menu-dropdown" data-bs-toggle="dropdown"
+                       data-bs-auto-close="true" aria-expanded="false"></i>
+                    <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
+                        <li><a class="dropdown-item risca-todos" href="#" data-value='false'
+                               onclick="riscaTodos()">Marca
+                                todos itens</a></li>
+                        <li><a class="dropdown-item apaga-todos" data-bs-toggle="modal" onclick="removeTodos()" href="#"
+                               data-bs-target="#modal-apaga-todos">Apagar todos itens</a>
+                        </li>
+                        <li><a class="dropdown-item apaga-itens-marcados" data-bs-toggle="modal"
+                               onclick="removeItensRiscados()" href="#" data-bs-target="#modal-apaga-marcados">Apagar
+                                itens marcados</a>
+                        </li>
+                    </ul>
+                </div>
+            </ul>
+
+            <ul class="lista-riscados">
+                <i class="bi bi-arrow-down-square seta-baixo" data-show="false"
+                   onclick="escondeItensRiscados()"></i><br>
+                <i class="bi bi-arrow-up-square seta-cima" data-show="true" onclick="mostraItensRiscados()"></i>
+                <p class="numero-itens-riscados"></p>
+                <div class="agrega-itens-escondidos" data-show="false"></div>
+            </ul>
+        </div>
     </div>
 
     <!-- Modal apaga todos itens -->

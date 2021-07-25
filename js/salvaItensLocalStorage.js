@@ -33,6 +33,17 @@ var carregaLocalStorageOnload = function () {
         }
     });
     ocultaLinhas();
+
+    mostraEscondeItensRiscadosOnload();
+    if (arrayMostraEscondeItensRiscados[0].attr('data-show') == 'false') {
+        $(`.agrega-itens-escondidos`).fadeOut('fast');
+        $(".seta-baixo").hide();
+        $(".seta-cima").fadeIn();
+    } else {
+        $(`.agrega-itens-escondidos`).fadeIn('fast');
+        $(".seta-cima").hide();
+        $(".seta-baixo").fadeIn();
+    }
 }
 
 var storageMostraEscondeItensRiscados = function () {
@@ -42,4 +53,11 @@ var storageMostraEscondeItensRiscados = function () {
     })
 
     localStorage.setItem('arrayMostraEscondeItensRiscados', JSON.stringify(array));
+}
+
+var mostraEscondeItensRiscadosOnload = function () {
+    let array = JSON.parse(localStorage.getItem('arrayMostraEscondeItensRiscados'));
+    arrayMostraEscondeItensRiscados.forEach(function (element, index) {
+        element.attr('data-show', array[index])
+    })
 }
