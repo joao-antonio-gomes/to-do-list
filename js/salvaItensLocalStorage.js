@@ -35,6 +35,7 @@ var carregaLocalStorageOnload = function () {
     ocultaLinhas();
 
     mostraEscondeItensRiscadosOnload();
+
     if (arrayMostraEscondeItensRiscados[0].attr('data-show') == 'false') {
         $(`.agrega-itens-escondidos`).fadeOut('fast');
         $(".seta-baixo").hide();
@@ -57,6 +58,9 @@ var storageMostraEscondeItensRiscados = function () {
 
 var mostraEscondeItensRiscadosOnload = function () {
     let array = JSON.parse(localStorage.getItem('arrayMostraEscondeItensRiscados'));
+    if (!localStorage.hasOwnProperty('arrayMostraEscondeItensRiscados')) {
+        storageMostraEscondeItensRiscados();
+    }
     arrayMostraEscondeItensRiscados.forEach(function (element, index) {
         element.attr('data-show', array[index])
     })
