@@ -10,18 +10,29 @@ body {
     margin-top: 10vh;
 }
 
+.input-group {
+    z-index: 0;
+}
+
 .to-do-list {
     margin-top: 5vh;
 }
 
-.botao-apagar {
+.botao-editar {
+    margin-right: 20px;
+}
+
+.botao-apagar,
+.botao-editar {
     font-size: 18px;
     font-weight: 600;
     transition: .5s ease-out;
     cursor: pointer;
+    color: black;
 }
 
-.botao-apagar:hover {
+.botao-apagar:hover,
+.botao-editar:hover {
     transform: rotate(20deg);
     transition: .2s ease-in;
 }
@@ -101,4 +112,27 @@ input[type="checkbox"] {
     text-align: center;
     margin-right: -5px;
     margin-bottom: 10px;
+}
+
+
+.modal-backdrop {
+    z-index: 1;
+}
+
+.modal {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal-title {
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.item-exclusão {
+    margin-top: 10px;
+    color: red;
+    font-weight: bold;
+    text-align: center;
 }

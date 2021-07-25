@@ -2,8 +2,10 @@ var removeItem = function () { //função para remover item da lista
     $("ul").one('click', function (e) {
         var botao = $(e.target);
         if ($(e.target).hasClass("botao-apagar")) {
-            if (window.confirm('Você realmente quer excluir esse item?')) {
-                var valor = botao.attr('data-value');
+            var valor = botao.attr('data-value');
+            $(`.item-abaixo-${valor}`).text($(`#item-${valor}`).text())
+            // if (window.confirm('Você realmente quer excluir esse item?')) {}
+            $(`.exclui-${valor}`).on('click', function () {
                 var item = acharItemPorId(valor);
                 item.status = "excluido";
                 guardaItensLocalStorage(); //atualiza local storage quando faz remoção do item
@@ -13,8 +15,9 @@ var removeItem = function () { //função para remover item da lista
                         elementoPai.remove();
                     })
                 })
+                $(`#modal-apaga-${valor}`).modal('hide');
                 ocultaLinhas();
-            }
+            })
         }
         else return;
     });
@@ -25,6 +28,7 @@ var removeTodos = function () {
     if (!window.confirm('Você realmente quer excluir todos os itens?')) {
         return;
     }
+
     listaItens.animate({ opacity: '0' }, 500, function () {
         listaItens.animate({ height: '0px' }, 300, function () {
             listaItens.remove();

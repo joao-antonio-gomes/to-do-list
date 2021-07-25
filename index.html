@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     <link rel="stylesheet" href="css/tooltipster.bundle.css">
     <link rel="stylesheet" href="js/plugins/jquery-ui-1.12.1/jquery-ui.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -27,25 +28,26 @@
 
     <div class="container col-8 to-do-list">
         <div class="input-group mb-3 col-4">
-            <label for="nome-item" class="input-group-text" id="basic-addon1">Item a adicionar</label>
-            <input type="text" class="form-control" placeholder="Nome do item" aria-label="Username"
+
+            <input type="text" class="form-control"
+                   placeholder="Digite aqui um item para adicionar e clique no botão ao lado" aria-label="Username"
                    aria-describedby="basic-addon1" name="nome-item" id="nome-item">
             <button class="btn btn-outline-secondary dica" type="submit" id="adicionar-item">Adicionar</button>
 
         </div>
 
-
-
         <ul class="list-group lista-geral">
             <div class="btn-group dropend d-flex flex-row-reverse opcoes">
-                <i class="bi bi-three-dots-vertical menu-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="false"
+                <i class="bi bi-three-dots-vertical menu-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="true"
                    aria-expanded="false"></i>
                 <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
                     <li><a class="dropdown-item risca-todos" href="#" data-value='false' onclick="riscaTodos()">Marca
                             todos itens</a></li>
-                    <li><a class="dropdown-item apaga-todos" onclick="removeTodos()" href="#">Apagar todos itens</a>
+                    <li><a class="dropdown-item apaga-todos" data-bs-toggle="modal" onclick="removeTodos()" href="#"
+                           data-bs-target="#modal-apaga-todos">Apagar todos itens</a>
                     </li>
-                    <li><a class="dropdown-item apaga-itens-marcados" onclick="removeItensRiscados()" href="#">Apagar
+                    <li><a class="dropdown-item apaga-itens-marcados" data-bs-toggle="modal"
+                           onclick="removeItensRiscados()" href="#" data-bs-target="#modal-apaga-marcados">Apagar
                             itens marcados</a>
                     </li>
                 </ul>
@@ -60,12 +62,52 @@
         </ul>
     </div>
 
+    <!-- Modal apaga todos itens -->
+    <div class="modal fade" id="modal-apaga-todos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Apagar todos itens</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Você tem certeza que deseja apagar todos os itens? Esta ação é irreversível.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary apaga-todos-itens">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal apaga todos itens MARCADOS -->
+    <div class="modal fade" id="modal-apaga-marcados" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Apagar todos itens marcados</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Você tem certeza que deseja todos os itens marcados? Esta ação é irreversível.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary apaga-todos-marcados">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/plugins/jquery.js"></script>
     <script src="js/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script src="js/plugins/tooltipster.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <script src="//unpkg.com/string-similarity/umd/string-similarity.min.js"></script>
     <script src="js/script.js"></script>
     <script src="js/riscaItemLista.js"></script>
+    <script src="js/editaItemLista.js"></script>
     <script src="js/excluiItemLista.js"></script>
     <script src="js/salvaItensLocalStorage.js"></script>
     <script src="js/adicionaNovoItem.js"></script>

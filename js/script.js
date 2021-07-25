@@ -2,37 +2,39 @@ $(document).ready(function () {
     adicionarItemComClick();
     adicionarItemComEnter();
     carregaLocalStorageOnload();
+    editarItemComClick();
+    editarItemComEnter();
+    chamaModal();
     ocultaLinhas();
 });
 
-var alertaFaltaItem = function (string) { //função padrão para chamar alerta no botão adicionar
-    $('.dica').tooltipster({
+var alertaFaltaItem = function (classe, string) { //função padrão para chamar alerta no botão adicionar
+    $(classe).tooltipster({
         trigger: 'click',
         animation: 'fade',
-        speed: 1500,
+        speed: 2500,
         theme: 'tooltipster-shadow',
         content: string
     });
-    $('.dica').tooltipster('disable');
+    $(classe).tooltipster('disable');
 }
 
-var mostraEscondeAlerta = function (string) { //função para mostrar e esconder alertas
+var mostraEscondeAlerta = function (classe, string) { //função para mostrar e esconder alertas
     var mostra;
     var esconde;
 
-    alertaFaltaItem(string);
+    alertaFaltaItem(classe, string);
 
     clearTimeout(mostra);
     clearTimeout(esconde);
     mostra = setTimeout(function () {
-        botaoAdiciona.tooltipster('enable');
-        botaoAdiciona.tooltipster('show');
+        $(classe).tooltipster('enable');
+        $(classe).tooltipster('show');
     }, 100);
 
     esconde = setTimeout(function () {
-        botaoAdiciona.tooltipster('hide');
-        botaoAdiciona.tooltipster('disable');
-        botaoAdiciona.tooltipster('destroy');
+        $(classe).tooltipster('hide');
+        $(classe).tooltipster('disable');
     }, 2500);
 }
 
