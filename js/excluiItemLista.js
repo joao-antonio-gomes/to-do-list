@@ -25,33 +25,33 @@ var removeItem = function () { //função para remover item da lista
 
 var removeTodos = function () {
     var listaItens = $('.item-lista');
-    if (!window.confirm('Você realmente quer excluir todos os itens?')) {
-        return;
-    }
-
-    listaItens.animate({ opacity: '0' }, 500, function () {
-        listaItens.animate({ height: '0px' }, 300, function () {
-            listaItens.remove();
+    $(`.apaga-todos-itens`).on('click', function () {
+        listaItens.animate({ opacity: '0' }, 500, function () {
+            listaItens.animate({ height: '0px' }, 300, function () {
+                listaItens.remove();
+            })
         })
+        arrayItens.forEach(element => { element.status = "excluido" })
+        $(`#modal-apaga-todos`).modal('hide');
+        ocultaLinhas();
     })
-    arrayItens.forEach(element => { element.status = "excluido" })
-    ocultaLinhas();
 }
 
 var removeItensRiscados = function () {
-    if (!window.confirm('Você realmente quer excluir todos os itens riscados?')) {
-        return;
-    }
-    arrayItens.forEach(function (element, index) {
-        if (element.riscado == true && element.status == 'ativo') {
-            element.status = "excluido";
-            var li = $(`.item-${index}`);
-            li.animate({ opacity: '0' }, 300, function () {
-                li.animate({ height: '0px' }, 150, function () {
-                    li.remove();
+    $(`.apaga-todos-marcados`).on('click', function () {
+        arrayItens.forEach(function (element, index) {
+            if (element.riscado == true && element.status == 'ativo') {
+                element.status = "excluido";
+                var li = $(`.item-${index}`);
+                li.animate({ opacity: '0' }, 300, function () {
+                    li.animate({ height: '0px' }, 150, function () {
+                        li.remove();
+                    })
                 })
-            })
-        }
+            }
+        })
+        ocultaLinhas();
+        $(`#modal-apaga-marcados`).modal('hide');
+
     })
-    ocultaLinhas();
 }

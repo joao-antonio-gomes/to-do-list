@@ -109,7 +109,7 @@ function criaElementoNaLista(id) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary apaga-item exclui-${posicaoItemLista}" data-value="${posicaoItemLista}">Salvar</button>
+                    <button type="button" class="btn btn-danger apaga-item exclui-${posicaoItemLista}" data-value="${posicaoItemLista}">Excluir Item</button>
                 </div>
             </div>
         </div>
@@ -128,6 +128,8 @@ function criaElementoNaLista(id) {
     //no momento que a li é criada é escondida para ter a animação dela surgindo com fadeIn
     li.hide();
     li.fadeIn()
+    editarItemComClick();
+    editarItemComEnter();
 }
 
 //quando clica no botão verifica se todos itens estão riscados, evita bug de ter que clicar 2x para desmarcar, 

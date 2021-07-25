@@ -2,8 +2,6 @@ $(document).ready(function () {
     adicionarItemComClick();
     adicionarItemComEnter();
     carregaLocalStorageOnload();
-    editarItemComClick();
-    editarItemComEnter();
     chamaModal();
     ocultaLinhas();
 });
