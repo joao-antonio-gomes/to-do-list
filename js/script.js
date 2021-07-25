@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    mostraEscondeItensRiscadosOnload();
+    storageMostraEscondeItensRiscados();
     adicionarItemComClick();
     adicionarItemComEnter();
     carregaLocalStorageOnload();

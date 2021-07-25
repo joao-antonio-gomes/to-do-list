@@ -33,8 +33,17 @@ var carregaLocalStorageOnload = function () {
         }
     });
     ocultaLinhas();
+}
 
-    mostraEscondeItensRiscadosOnload();
+arrayMostraEscondeItensRiscados = [$(".seta-baixo"), $(".seta-cima"), $(".agrega-itens-escondidos")];
+var mostraEscondeItensRiscadosOnload = function () {
+    if (!localStorage.hasOwnProperty('arrayMostraEscondeItensRiscados')) {
+        storageMostraEscondeItensRiscados();
+    }
+    let array = JSON.parse(localStorage.getItem('arrayMostraEscondeItensRiscados'));
+    arrayMostraEscondeItensRiscados.forEach(function (element, index) {
+        element.attr('data-show', array[index])
+    })
 
     if (arrayMostraEscondeItensRiscados[0].attr('data-show') == 'false') {
         $(`.agrega-itens-escondidos`).fadeOut('fast');
@@ -48,20 +57,11 @@ var carregaLocalStorageOnload = function () {
 }
 
 var storageMostraEscondeItensRiscados = function () {
-    var array = [];
+    var arrayLocal = [];
+
     arrayMostraEscondeItensRiscados.forEach(element => {
-        array.push(element.attr('data-show'));
+        arrayLocal.push(element.attr('data-show'));
     })
 
-    localStorage.setItem('arrayMostraEscondeItensRiscados', JSON.stringify(array));
-}
-
-var mostraEscondeItensRiscadosOnload = function () {
-    let array = JSON.parse(localStorage.getItem('arrayMostraEscondeItensRiscados'));
-    if (!localStorage.hasOwnProperty('arrayMostraEscondeItensRiscados')) {
-        storageMostraEscondeItensRiscados();
-    }
-    arrayMostraEscondeItensRiscados.forEach(function (element, index) {
-        element.attr('data-show', array[index])
-    })
+    localStorage.setItem('arrayMostraEscondeItensRiscados', JSON.stringify(arrayLocal));
 }
