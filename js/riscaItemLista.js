@@ -89,5 +89,13 @@ var inverteDataShowMostraEscondeItens = function () {
 
 var atualizaNumeroItensRiscados = function (numeroItens) {
     var p = $(".numero-itens-riscados");
-    numeroItens > 0 ? p.text(`${numeroItens} itens marcados`) : p.text('')
+    if (numeroItens > 0) {
+        if (numeroItens == 1) {
+            p.text(`${numeroItens} item marcado`)
+        } else {
+            p.text(`${numeroItens} itens marcados`)
+        }
+    } else {
+        p.text('')
+    }
 }
