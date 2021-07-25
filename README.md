@@ -3,5 +3,5 @@ A To Do List é uma lista de tarefas que você pode utilizar para ajudar a se or
 
 # Funcionalidades
 
-Adicione novos itens apertando enter ou clicando no botão de adicionar:
+• Adicione novos itens apertando enter ou clicando no botão de adicionar:
 ![](https://i.imgur.com/ZsAqoZF.gif)
